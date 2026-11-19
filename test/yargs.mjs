@@ -1458,6 +1458,27 @@ describe('yargs dsl tests', () => {
         argv.c.should.equal(201);
       });
 
+      it('supports relative extends inside an extended module config', () => {
+        const absolutePath = path.resolve(
+          process.cwd(),
+          'test',
+          'fixtures',
+          'extends',
+          'module_with_extends.cjs'
+        );
+
+        const argv = yargs()
+          .config({
+            a: 2,
+            extends: absolutePath,
+          })
+          .parse();
+
+        argv.a.should.equal(2);
+        argv.c.should.equal(201);
+        argv.z.should.equal(15);
+      });
+
       it('ignores an extends key that does not look like a path or module', () => {
         const argv = yargs()
           .config({
